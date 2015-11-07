@@ -30,7 +30,6 @@ class Main extends React.Component{
             isLoading: false
           })
         } else {
-          // console.log(res);
           this.props.navigator.push({
             title: "Drip Delivers",
             component: Feed,

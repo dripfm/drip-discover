@@ -1,7 +1,10 @@
 'use strict';
 
 var React = require('react-native');
-var api = require('../../Utils/api');
+var api   = require('../../Utils/api');
+var PostCell  = require('../Post/PostCell');
+var Post  = require('../Post');
+
 
 var {
   Text,
@@ -53,43 +56,20 @@ var Posts = React.createClass({
     );
   },
 
-  renderPostCell: function(post) {
-    console.log(post.data)
-    if(post.data.klass == 'Release') {
-      if (post.data.cover.cover.email_thumb.url) {
-        var img = post.data.cover.cover.email_thumb.url
-      } else {
-        var img = "https://www.google.com/logos/doodles/2015/adolphe-saxs-201st-birthday-6443879796572160-5665117697998848-ror.jpg"
-      }
-      return(
-          <TouchableHighlight onPress={this.props.onSelect}>
-            <View style={styles.container}>
-              <Image style={styles.thumbnail} source={{uri: img}} />
-              <Text style={styles.post}>{post.data.title}</Text>
-            </View>
-          </TouchableHighlight>
-      );
-    } else {
-      if (post.data.type == 'YouTubePost') {
-        var img = post.data.thumbnail_url
-      } else if (post.data.type == 'SoundCloudPost') {
-        var img = post.data.thumbnail_url
-      } else if (post.data.type == 'PhotoPost') {
-        if (post.data.images) {
-          var img = post.data.images[0].url
-        } else {
-          var img = "https://www.google.com/logos/doodles/2015/adolphe-saxs-201st-birthday-6443879796572160-5665117697998848-ror.jpg"
-        }
-      }
-      return(
-          <TouchableHighlight onPress={this.props.onSelect}>
-            <View style={styles.container}>
-              <Image style={styles.thumbnail} source={{uri: img}} />
-              <Text style={styles.post}>{post.data.title}</Text>
-            </View>
-          </TouchableHighlight>
-      );
-    }
+  renderPostCell: function(post){
+    return(
+      <PostCell
+        onSelect={() => this._selectPost(post)}
+        post={post}/>
+    );
+  },
+
+  _selectPost: function(post){
+    this.props.navigator.push({
+      title: "TEST",
+      component: PostView,
+      passProps: {post: post}
+    });
   },
 
   render: function() {
