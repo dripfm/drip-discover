@@ -15,7 +15,7 @@ var {
   Image
 } = React;
 
-var PostCell = React.createClass({
+var FeedCell = React.createClass({
   render: function() {
     if(this.props.post.data.klass == 'Release') {
       if (this.props.post.data.cover.cover.email_thumb.url) {
@@ -76,7 +76,7 @@ var styles = StyleSheet.create({
 
 });
 
-module.exports = PostCell;
+module.exports = FeedCell;
 
 
 
