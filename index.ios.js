@@ -5,83 +5,38 @@
 'use strict';
 
 var React = require('react-native');
+var Main = require('./App/Components/Main');
+
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
+  NavigatorIOS,
 } = React;
 
 var DripPassionFruit = React.createClass({
 
-  getInitialState: function() {
-      return {
-        creative: null,
-      };
-    },
-
-  componentDidMount: function() {
-    this.fetchData();
-  },
-
-  fetchData: function() {
-    fetch("http://drip.com/api/creatives/80")
-      .then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-          creative: responseData.data,
-        });
-      })
-      .done();
-  },
-
   render: function() {
-    if (!this.state.creative) {
       return (
-        <View style={styles.container}>
-          <Text style={styles.welcome}>
-            loading...
-          </Text>
-        </View>
+        <NavigatorIOS
+          style={ styles.container }
+          initialRoute={{
+            title: 'Drip',
+            component: Main,
+          }} />
         )
-    }
-    var creative = this.state.creative;
-    return (
-
-      <TouchableHighlight onPress={this.testClick}>
-        <View style={styles.container}>
-          <Text style={styles.welcome}>
-            Welcome to {creative.name}!
-          </Text>
-        </View>
-      </TouchableHighlight>
-    );
-  },
-
-  testClick: function() {
-    console.log("touched!");
   }
 
 });
 
+
 var styles = StyleSheet.create({
-  container: {
+  container:{
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#481090',
-    marginBottom: 5,
+    backgroundColor: '#fff'
   },
 });
+
 
 AppRegistry.registerComponent('DripPassionFruit', () => DripPassionFruit);
