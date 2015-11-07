@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var api   = require('../../Utils/api');
-var PostCell  = require('../Post/PostCell');
+var FeedCell  = require('../Feed/FeedCell');
 var Post  = require('../Post');
 
 
@@ -51,14 +51,14 @@ var Posts = React.createClass({
     return (
       <ListView
         dataSource={this.state.dataSource}
-        renderRow={this.renderPostCell}
+        renderRow={this.renderFeedCell}
         style={styles.listView} />
     );
   },
 
-  renderPostCell: function(post){
+  renderFeedCell: function(post){
     return(
-      <PostCell
+      <FeedCell
         onSelect={() => this._selectPost(post)}
         post={post}/>
     );
@@ -66,9 +66,9 @@ var Posts = React.createClass({
 
   _selectPost: function(post){
     this.props.navigator.push({
-      title: "TEST",
-      component: PostView,
-      passProps: {post: post}
+      title: post.data.title,
+      component: Post,
+      passProps: {post: post.data}
     });
   },
 
