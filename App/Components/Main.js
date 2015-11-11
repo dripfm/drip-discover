@@ -22,7 +22,7 @@ class Main extends React.Component{
     this.setState({
       isLoading: true
     });
-    api.getFeed(80)
+    api.getFeed(4)
       .then((res) => {
         if(res.errors === 'Not Found'){
           this.setState({
