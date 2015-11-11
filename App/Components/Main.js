@@ -18,29 +18,13 @@ class Main extends React.Component{
       error: false
     }
   }
+
   handleClick() {
-    this.setState({
-      isLoading: true
+    this.props.navigator.push({
+      title: "Drip Delivers",
+      component: Feed,
+      passProps: { dripId: 1 }
     });
-    api.getFeed(4)
-      .then((res) => {
-        if(res.errors === 'Not Found'){
-          this.setState({
-            error: 'Drip not found',
-            isLoading: false
-          })
-        } else {
-          this.props.navigator.push({
-            title: "Drip Delivers",
-            component: Feed,
-            passProps: {dripPayload: res}
-          });
-          this.setState({
-            isLoading: false,
-            error: false,
-          })
-        }
-      });
   }
 
   render() {

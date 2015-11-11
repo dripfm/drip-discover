@@ -5,7 +5,6 @@ var api   = require('../../Utils/api');
 var FeedCell  = require('../Feed/FeedCell');
 var Post  = require('../Post');
 
-
 var {
   Text,
   View,
@@ -31,7 +30,7 @@ var Posts = React.createClass({
   },
 
   fetchData: function() {
-      api.getFeed(80)
+      api.getFeed(this.props.dripId)
       .then((res) => {
         if(res.errors === 'Not Found'){
           this.setState({
@@ -64,14 +63,6 @@ var Posts = React.createClass({
     );
   },
 
-  _selectPost: function(post){
-    this.props.navigator.push({
-      title: post.data.title,
-      component: Post,
-      passProps: {post: post.data}
-    });
-  },
-
   render: function() {
     if(!this.state.loaded) {
       return(
@@ -83,6 +74,14 @@ var Posts = React.createClass({
     return(
       this.renderListView()
     );
+  },
+
+  _selectPost: function(post){
+    this.props.navigator.push({
+      title: post.data.title,
+      component: Post,
+      passProps: {post: post.data}
+    });
   },
 
 });
