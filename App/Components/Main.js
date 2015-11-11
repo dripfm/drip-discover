@@ -6,39 +6,74 @@ var {
   Text,
   StyleSheet,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  PickerIOS
 } = React;
+
+var PickerItemIOS = PickerIOS.Item;
+
+var DRIPS = {
+  discover: {
+    name: 'Discover',
+    dripId: 80,
+  },
+  ghostly: {
+    name: 'Ghostly',
+    dripId: 1,
+  },
+  st: {
+    name: 'Stones Throw',
+    dripId: 5,
+  },
+  fg: {
+    name: 'Fool\'s Gold',
+    dripId: 4,
+  },
+  md: {
+    name: 'Mad Decent',
+    dripId: 3,
+  },
+};
 
 class Main extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      username: '',
-      isLoading: false,
-      error: false
+      initialDrip: 'ghostly',
+      dripId: 1,
     }
   }
 
-  handleClick() {
+  handleClick(val) {
+    console.log(val);
     this.props.navigator.push({
-      title: "Drip Delivers",
+      title: val.name,
       component: Feed,
-      passProps: { dripId: 1 }
+      passProps: { dripId: val.dripId }
     });
   }
 
   render() {
+    var drip = DRIPS[this.state.initialDrip];
+    var selectionString = drip.name + ' ' + drip.dripId;
+
     return (
-      <View style={styles.mainContainer}>
-        <Text style={styles.title}>Choose a Drip</Text>
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this.handleClick.bind(this)}
-          underlayColor="white">
-          <Text style={styles.buttonText}>Drip Delivers</Text>
-        </TouchableHighlight>
+      <View>
+        <Text>Please choose a Drip:</Text>
+        <PickerIOS
+          selectedValue={this.state.initialDrip}
+          onValueChange={(initialDrip) => this.handleClick(DRIPS[initialDrip])}>
+          {Object.keys(DRIPS).map((initialDrip) => (
+            <PickerItemIOS
+              key={initialDrip}
+              value={initialDrip}
+              label={DRIPS[initialDrip].name}
+            />
+            )
+          )}
+          </PickerIOS>
       </View>
-    )
+    );
   }
 };
 
