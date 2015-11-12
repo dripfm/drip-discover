@@ -5,7 +5,7 @@
 'use strict';
 
 var React = require('react-native');
-var Main = require('./App/Components/Main');
+var Auth = require('./App/Components/Auth');
 
 var {
   AppRegistry,
@@ -23,7 +23,7 @@ var DripPassionFruit = React.createClass({
           style={ styles.container }
           initialRoute={{
             title: 'Drip',
-            component: Main,
+            component: Auth,
           }} />
         )
   }

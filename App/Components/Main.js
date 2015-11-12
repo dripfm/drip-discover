@@ -39,13 +39,12 @@ class Main extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      initialDrip: 'ghostly',
-      dripId: 1,
+      initialDrip: 'discover',
+      dripId: 80,
     }
   }
 
   handleClick(val) {
-    console.log(val);
     this.props.navigator.push({
       title: val.name,
       component: Feed,
