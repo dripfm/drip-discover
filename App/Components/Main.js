@@ -1,80 +1,76 @@
 var React = require('react-native');
 var api = require('../Utils/api');
-var Feed = require('./Feed')
+var DripCell = require("./dripCell");
+var Feed = require('./Feed');
+
 var {
   View,
   Text,
   StyleSheet,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  PickerIOS
+  ListView,
 } = React;
 
-var PickerItemIOS = PickerIOS.Item;
+var Main = React.createClass({
+   getInitialState: function() {
+    return {
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+      loaded: false,
+    };
+  },
 
-var DRIPS = {
-  discover: {
-    name: 'Discover',
-    dripId: 80,
+  componentDidMount: function() {
+    this.fetchData();
   },
-  ghostly: {
-    name: 'Ghostly',
-    dripId: 1,
-  },
-  st: {
-    name: 'Stones Throw',
-    dripId: 5,
-  },
-  fg: {
-    name: 'Fool\'s Gold',
-    dripId: 4,
-  },
-  md: {
-    name: 'Mad Decent',
-    dripId: 3,
-  },
-};
 
-class Main extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      initialDrip: 'discover',
-      dripId: 80,
-    }
-  }
-
-  handleClick(val) {
-    this.props.navigator.push({
-      title: val.name,
-      component: Feed,
-      passProps: { dripId: val.dripId }
+  fetchData: function() {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(this.props.user.memberships),
+      loaded: true,
     });
-  }
+  },
 
-  render() {
-    var drip = DRIPS[this.state.initialDrip];
-    var selectionString = drip.name + ' ' + drip.dripId;
-
-    return (
-      <View>
-        <Text>Please choose a Drip:</Text>
-        <PickerIOS
-          selectedValue={this.state.initialDrip}
-          onValueChange={(initialDrip) => this.handleClick(DRIPS[initialDrip])}>
-          {Object.keys(DRIPS).map((initialDrip) => (
-            <PickerItemIOS
-              key={initialDrip}
-              value={initialDrip}
-              label={DRIPS[initialDrip].name}
-            />
-            )
-          )}
-          </PickerIOS>
-      </View>
+  render: function() {
+    if(!this.state.loaded) {
+      return(
+        <View style={styles.container}>
+          <Text>Loading drips...</Text>
+        </View>
+      );
+    }
+    return(
+      this.renderListView()
     );
-  }
-};
+  },
+
+  renderListView: function() {
+    return (
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderDripCell}
+        style={styles.listView} />
+    );
+  },
+
+  renderDripCell: function(drip){
+    return(
+      <DripCell
+        onSelect={() => this.selectDrip(drip)}
+        drip={drip}/>
+    );
+  },
+
+  selectDrip: function(drip) {
+    this.props.navigator.push({
+      title: drip.creative.name,
+      component: Feed,
+      passProps: { dripId: drip.creative.id }
+    });
+  },
+});
 
 var styles = StyleSheet.create({
   mainContainer: {

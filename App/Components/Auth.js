@@ -25,6 +25,7 @@ var Auth = React.createClass({
     return {
       email: '',
       password: '',
+      error: '',
     };
   },
   updateEmail: function(text) {
@@ -40,25 +41,18 @@ var Auth = React.createClass({
   handleSubmit: function(){
     api.signIn(this.state.email, this.state.password)
     .then((res) => {
-      console.log(res);
       if(res.errors === 'Invalid email or password - or did you sign up with Facebook?'){
           this.setState({
             error: 'Incorrect email or password',
-            isLoading: false
           })
         } else {
-          this.setState({
-            error: '',
-            user: res,
-            loaded: true
-          })
-          this.navigateToDash(this.state.user);
+          this.navigateToDash(res);
         }
-    });
+    }).done();
   },
   navigateToDash: function(user) {
     this.props.navigator.push({
-      title: "Next Screen",
+      title: "My Drips",
       component: Main,
       passProps: {user: user}
     });
