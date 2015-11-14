@@ -6,6 +6,9 @@
 // if it fails, display an error on the screen
 
 var React = require('react-native');
+var api = require('../Utils/api');
+var Main = require('./Main');
+
 
 var {
   View,
@@ -13,6 +16,7 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
+  NavigatorIOS,
 } = React;
 
 var Auth = React.createClass({
@@ -34,32 +38,30 @@ var Auth = React.createClass({
     });
   },
   handleSubmit: function(){
-    // POST TO STAGING TO TRY AND SIGN IN
-    // var url = `https://drip-creator.firebaseio.com/christopher-willits.json`;
-    var url = `https://staging.drip.com/login`;
-    var credentials = {
-      email: this.state.email,
-      password: this.state.password,
-    }
-    return fetch(url, {
-      method: 'post',
-      body: JSON.stringify(credentials)
-      })
-      .then((res) => res.json())
-      .then(
-        this.setState({
-          isLoading: true,
-        })
-      )
-      .then(
-        // REDIRECT THEM TO THE MAIN.JS FILE
-        // PASS ALONG THE DRIPS THEY HAVE
-        // SHOW A LOADER AND FETCH THEIR SUBSCRIPTIONS
-      )
-      .catch((error) => {
-        console.log('Request failed', error);
-        this.setState({error})
-      });
+    api.signIn(this.state.email, this.state.password)
+    .then((res) => {
+      console.log(res);
+      if(res.errors === 'Invalid email or password - or did you sign up with Facebook?'){
+          this.setState({
+            error: 'Incorrect email or password',
+            isLoading: false
+          })
+        } else {
+          this.setState({
+            error: '',
+            user: res,
+            loaded: true
+          })
+          this.navigateToDash(this.state.user);
+        }
+    });
+  },
+  navigateToDash: function(user) {
+    this.props.navigator.push({
+      title: "Next Screen",
+      component: Main,
+      passProps: {user: user}
+    });
   },
   render: function() {
     return (
