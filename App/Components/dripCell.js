@@ -16,6 +16,7 @@ var DripCell = React.createClass({
     return(
         <TouchableHighlight onPress={this.props.onSelect}>
           <View style={styles.container}>
+            <Image style={styles.thumbnail} source={{uri: this.props.drip.creative.banner_thumb_url}} />
             <Text>{this.props.drip.creative.name}</Text>
           </View>
         </TouchableHighlight>
@@ -27,7 +28,7 @@ var DripCell = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
   },
@@ -37,7 +38,7 @@ var styles = StyleSheet.create({
   },
   thumbnail: {
     width: 310,
-    height: 310,
+    height: 100,
     margin: 1,
   },
 

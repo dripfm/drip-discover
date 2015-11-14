@@ -60,10 +60,11 @@ var Auth = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
+
           <TextInput
               placeholder="email"
               autoFocus="true"
-              style={{height: 40, padding: 10, borderColor: "#EEEEFF", borderWidth: 1, marginBottom: 10}}
+              style={{color: 'white', height: 40, padding: 10, borderColor: "#EEEEFF", borderWidth: 1, marginBottom: 10}}
               value={this.state.text}
               onChange={(event) => this.updateEmail(event.nativeEvent.text)}
           />
@@ -71,7 +72,7 @@ var Auth = React.createClass({
           <TextInput
               placeholder="password"
               secureTextEntry="true"
-              style={{height: 40, padding: 10, borderColor: "#eeeeff", borderWidth: 1}}
+              style={{color: 'white',height: 40, padding: 10, borderColor: "#eeeeff", borderWidth: 1}}
               value={this.state.text}
               onChange={(event) => this.updatePassword(event.nativeEvent.text)}
 
@@ -98,10 +99,7 @@ var styles = StyleSheet.create({
     marginTop: 0,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#fff'
-  },
-  label: {
-    textAlign: 'center'
+    backgroundColor: '#4A90E2',
   },
   buttonText: {
     fontSize: 18,

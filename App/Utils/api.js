@@ -12,8 +12,8 @@ var api = {
     return fetch(url).then((res) => res.json())
   },
   signIn(email, password){
-    fetch(`http://localhost:8080/api/users/logout`)
-    var url = `http://localhost:8080/api/users/login`;
+    fetch(`https://drip.com/api/users/logout`)
+    var url = `https://drip.com/api/users/login`;
     return fetch(
       url,
       {
